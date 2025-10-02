@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir)",
+      "Bash(move page.ts page.tsx)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
