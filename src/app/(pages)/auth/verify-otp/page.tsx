@@ -1,4 +1,3 @@
-// app/verify-otp/page.tsx
 'use client'
 
 import { useState, useRef, useEffect } from 'react'

@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import NavbarComponent from '@/components/NavbarComponent'
 
 interface FileItem {
   id: string
@@ -23,7 +24,7 @@ interface FileItem {
   icon?: string
 }
 
-export default function FilesPage() {
+export default function ReportsPage() {
   const [files, setFiles] = useState<FileItem[]>([])
   const [filteredFiles, setFilteredFiles] = useState<FileItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -34,7 +35,6 @@ export default function FilesPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
   useEffect(() => {
-    // Mock data - ใน production จะดึงจาก API
     const mockFiles: FileItem[] = [
       {
         id: '1',
@@ -250,35 +250,7 @@ export default function FilesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] p-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-        <div className="flex items-center space-x-4 mb-4 lg:mb-0">
-          <Link href="/dashboard" className="flex items-center space-x-4 group">
-            <div className="w-12 h-12 relative group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/RAMPART-LOGO.png"
-                alt="RAMPART"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-                File Repository
-              </h1>
-              <p className="text-blue-200/60 text-sm">
-                ไฟล์ทั้งหมดในระบบวิเคราะห์มัลแวร์
-              </p>
-            </div>
-          </Link>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <div className="text-right">
-            <p className="text-white font-medium">ไฟล์ทั้งหมด</p>
-            <p className="text-cyan-400 text-2xl font-bold">{files.length} ไฟล์</p>
-          </div>
-        </div>
-      </div>
+      <NavbarComponent/>  
 
       {/* Filters and Search */}
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-6">
@@ -375,131 +347,70 @@ export default function FilesPage() {
         </div>
       </div>
 
-      {/* Files Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        {filteredFiles.map((file) => (
-          <div
-            key={file.id}
-            className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 transition-all duration-300 group"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center space-x-4 flex-1 min-w-0">
-                <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 transition-transform duration-300">
-                  <i className={`fas ${getFileIcon(file.type)} text-cyan-400 text-2xl`}></i>
+      {/* Files List */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-white font-semibold text-xl">รายงานทั้งหมด</h2>
+          <span className="text-blue-200/60 text-sm">
+            แสดง {filteredFiles.length} รายการ
+          </span>
+        </div>
+
+        <div className="space-y-4">
+          {filteredFiles.map((file) => (
+            <Link
+              key={file.id}
+              href={`/reports/${file.id}`}
+              className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 cursor-pointer group"
+            >
+              <div className="flex items-center space-x-4 flex-1">
+                <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 transition-transform duration-300">
+                  <i className={`fas ${getFileIcon(file.type)} text-cyan-400`}></i>
                 </div>
-                
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="text-white font-semibold truncate text-lg">
-                      {file.name}
-                    </h3>
+
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-1">
+                    <p className="text-white font-medium">{file.name}</p>
                     <span className="text-blue-200/60 text-sm bg-white/5 px-2 py-1 rounded">
                       .{file.type}
                     </span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(file.status)}`}>
+                      {getStatusText(file.status)}
+                    </span>
+                    {file.malwareType && (
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        file.malwareType === 'Clean'
+                          ? 'text-green-400 bg-green-500/10 border-green-500/20'
+                          : 'text-red-400 bg-red-500/10 border-red-500/20'
+                      }`}>
+                        {file.malwareType}
+                      </span>
+                    )}
                   </div>
-                  
                   <div className="flex items-center space-x-4 text-sm text-blue-200/60">
                     <span>{formatFileSize(file.size)}</span>
                     <span>•</span>
-                    <span>{file.uploadedBy}</span>
+                    <span>อัพโหลดโดย: {file.uploadedBy}</span>
                     <span>•</span>
                     <span>{formatDate(file.uploadDate)}</span>
+                    {file.riskScore && (
+                      <>
+                        <span>•</span>
+                        <span className={`font-medium ${getRiskColor(file.riskScore)}`}>
+                          คะแนนความเสี่ยง: {file.riskScore}/10
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col items-end space-y-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(file.status)}`}>
-                  {getStatusText(file.status)}
-                </span>
-                
-                {file.riskScore && (
-                  <div className={`text-lg font-bold ${getRiskColor(file.riskScore)}`}>
-                    {file.riskScore}/10
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* File Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-blue-200/60">MD5:</span>
-                  <span className="text-white font-mono text-xs truncate ml-2">
-                    {file.hashes.md5}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-blue-200/60">SHA1:</span>
-                  <span className="text-white font-mono text-xs truncate ml-2">
-                    {file.hashes.sha1}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-blue-200/60">SHA256:</span>
-                  <span className="text-white font-mono text-xs truncate ml-2">
-                    {file.hashes.sha256}
-                  </span>
+                <div className="text-cyan-400">
+                  <i className="fas fa-chevron-right"></i>
                 </div>
               </div>
-
-              <div className="space-y-2">
-                {file.malwareType && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-blue-200/60">ประเภทมัลแวร์:</span>
-                    <span className={`font-medium ${
-                      file.malwareType === 'Clean' ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {file.malwareType}
-                    </span>
-                  </div>
-                )}
-                
-                {file.riskScore && (
-                  <div className="w-full bg-white/10 rounded-full h-2 mt-2">
-                    <div
-                      className={`h-2 rounded-full transition-all duration-1000 ${
-                        file.riskScore >= 8 ? 'bg-red-500' :
-                        file.riskScore >= 6 ? 'bg-yellow-500' : 'bg-green-500'
-                      }`}
-                      style={{ width: `${file.riskScore * 10}%` }}
-                    ></div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex justify-between items-center pt-4 border-t border-white/10">
-              <div className="flex space-x-2">
-                <Link
-                  href={`/files/${file.id}`}
-                  className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2"
-                >
-                  <i className="fas fa-eye"></i>
-                  <span>ดูรายละเอียด</span>
-                </Link>
-                
-                {file.status === 'completed' && (
-                  <button className="px-4 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2">
-                    <i className="fas fa-download"></i>
-                    <span>ดาวน์โหลดรายงาน</span>
-                  </button>
-                )}
-              </div>
-
-              <div className="flex space-x-2">
-                <button className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded-lg transition-all duration-300">
-                  <i className="fas fa-envelope"></i>
-                </button>
-                <button className="p-2 text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 rounded-lg transition-all duration-300">
-                  <i className="fas fa-share-alt"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Empty State */}

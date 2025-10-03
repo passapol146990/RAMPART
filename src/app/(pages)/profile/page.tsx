@@ -4,6 +4,8 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import NavbarComponent from '@/components/NavbarComponent'
 
 interface UserProfile {
   username: string
@@ -46,6 +48,9 @@ interface DownloadHistory {
 }
 
 export default function ProfilePage() {
+  const searchParams = useSearchParams()
+  const modeParam = searchParams.get('m')
+
   const [activeTab, setActiveTab] = useState('profile')
   const [user, setUser] = useState<UserProfile | null>(null)
   const [loginHistory, setLoginHistory] = useState<LoginHistory[]>([])
@@ -59,6 +64,13 @@ export default function ProfilePage() {
     newPassword: '',
     confirmPassword: ''
   })
+
+  // ตั้งค่า tab เริ่มต้นตาม query parameter
+  useEffect(() => {
+    if (modeParam === 'report') {
+      setActiveTab('upload')
+    }
+  }, [modeParam])
 
   useEffect(() => {
     // Mock data - ใน production จะดึงจาก API
@@ -252,35 +264,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] p-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-        <div className="flex items-center space-x-4 mb-4 lg:mb-0">
-          <Link href="/dashboard" className="flex items-center space-x-4 group">
-            <div className="w-12 h-12 relative group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/RAMPART-LOGO.png"
-                alt="RAMPART"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-                User Profile
-              </h1>
-              <p className="text-blue-200/60 text-sm">
-                ข้อมูลส่วนตัวและประวัติการใช้งาน
-              </p>
-            </div>
-          </Link>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <div className="text-right">
-            <p className="text-white font-medium">สถานะการใช้งาน</p>
-            <p className="text-green-400 text-sm">ออนไลน์</p>
-          </div>
-        </div>
-      </div>
+      <NavbarComponent/>  
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
         {/* Sidebar - User Info */}
@@ -608,12 +592,16 @@ export default function ProfilePage() {
                 </div>
 
                 {uploadHistory.map((upload) => (
-                  <div key={upload.id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
+                  <Link
+                    key={upload.id}
+                    href={`/reports/${upload.id}`}
+                    className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 cursor-pointer"
+                  >
                     <div className="flex items-center space-x-4 flex-1">
                       <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
                         <i className="fas fa-file text-cyan-400"></i>
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-1">
                           <p className="text-white font-medium">{upload.fileName}</p>
@@ -639,8 +627,12 @@ export default function ProfilePage() {
                           )}
                         </div>
                       </div>
+
+                      <div className="text-cyan-400">
+                        <i className="fas fa-chevron-right"></i>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}

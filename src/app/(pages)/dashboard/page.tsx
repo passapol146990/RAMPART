@@ -1,11 +1,9 @@
-// app/dashboard/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+import NavbarComponent from '@/components/NavbarComponent'
 
-// Mock data types
 interface DashboardStats {
   totalFiles: {
     total: number
@@ -146,37 +144,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] p-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-        <div className="flex items-center space-x-4 mb-4 lg:mb-0">
-          <div className="w-12 h-12 relative">
-            <Image
-              src="/RAMPART-LOGO.png"
-              alt="RAMPART"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <div>
-            <h1 className="text-3xl font-black bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-              Security Dashboard
-            </h1>
-            <p className="text-blue-200/60 text-sm">
-              ระบบวิเคราะห์มัลแวร์แบบเรียลไทม์
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2 bg-white/5 rounded-xl px-4 py-2 border border-white/10">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-white text-sm">ระบบพร้อมใช้งาน</span>
-          </div>
-          <div className="text-right">
-            <p className="text-white font-medium">Security Analyst</p>
-            <p className="text-blue-200/60 text-sm">admin@rampart.security</p>
-          </div>
-        </div>
-      </div>
+      <NavbarComponent/>  
 
       {/* System Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

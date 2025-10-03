@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import NavbarComponent from '@/components/NavbarComponent'
 
 interface FileDetail {
   id: string
@@ -64,7 +65,7 @@ interface FileDetail {
   }
 }
 
-export default function FileDetailPage() {
+export default function ReportDetailPage() {
   const params = useParams()
   const router = useRouter()
   const [file, setFile] = useState<FileDetail | null>(null)
@@ -283,45 +284,7 @@ export default function FileDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] p-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-        <div className="flex items-center space-x-4 mb-4 lg:mb-0">
-          <Link href="/dashboard" className="flex items-center space-x-4 group">
-            <div className="w-12 h-12 relative group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/RAMPART-LOGO.png"
-                alt="RAMPART"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-                File Analysis
-              </h1>
-              <p className="text-blue-200/60 text-sm">
-                รายละเอียดการวิเคราะห์ไฟล์
-              </p>
-            </div>
-          </Link>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => setEmailDialog(true)}
-            className="px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
-          >
-            <i className="fas fa-envelope"></i>
-            <span>แจ้งเตือนทางอีเมล</span>
-          </button>
-          <Link
-            href="/files"
-            className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
-          >
-            <i className="fas fa-arrow-left"></i>
-            <span>กลับไปหน้ารายการ</span>
-          </Link>
-        </div>
-      </div>
+      <NavbarComponent/>  
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
         {/* Sidebar */}
@@ -478,7 +441,7 @@ export default function FileDetailPage() {
               {[
                 { id: 'overview', label: 'ภาพรวม', icon: 'fa-chart-pie' },
                 { id: 'behaviors', label: 'พฤติกรรม', icon: 'fa-code' },
-                { id: 'signatures', label: 'ลายเซ็น', icon: 'fa-shield-alt' },
+                { id: 'signatures', label: 'ภัยคุกคาม', icon: 'fa-shield-alt' },
                 { id: 'static', label: 'Static Analysis', icon: 'fa-search' },
                 { id: 'dynamic', label: 'Dynamic Analysis', icon: 'fa-play' },
                 { id: 'network', label: 'เครือข่าย', icon: 'fa-globe' }

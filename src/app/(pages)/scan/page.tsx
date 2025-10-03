@@ -1,9 +1,8 @@
-// app/upload/page.tsx
 'use client'
 
 import { useState, useRef } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+import NavbarComponent from '@/components/NavbarComponent'
 
 interface UploadedFile {
   id: string
@@ -19,7 +18,7 @@ interface UploadedFile {
   }
 }
 
-export default function UploadPage() {
+export default function ScanFilesPage() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [analysisMode, setAnalysisMode] = useState<'quick' | 'deep'>('quick')
@@ -180,35 +179,7 @@ export default function UploadPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] p-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-        <div className="flex items-center space-x-4 mb-4 lg:mb-0">
-          <Link href="/dashboard" className="flex items-center space-x-4 group">
-            <div className="w-12 h-12 relative group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/RAMPART-LOGO.png"
-                alt="RAMPART"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-                File Analysis
-              </h1>
-              <p className="text-blue-200/60 text-sm">
-                อัพโหลดไฟล์เพื่อวิเคราะห์มัลแวร์
-              </p>
-            </div>
-          </Link>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2 bg-white/5 rounded-xl px-4 py-2 border border-white/10">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-white text-sm">พร้อมอัพโหลด</span>
-          </div>
-        </div>
-      </div>
+      <NavbarComponent/>  
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Upload Section */}
