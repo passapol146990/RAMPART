@@ -25,9 +25,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // ตรวจสอบ email และ password (ตัวอย่างเท่านั้น)
-    // ใน production ควรใช้ database จริง
-    if (email === 'user@example.com' && password === 'password') {
+    if (email === 'admin@admin.com' && password === 'password') {
       // Login สำเร็จ
       return NextResponse.json(
         { message: 'Login successful' },

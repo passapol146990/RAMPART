@@ -37,8 +37,16 @@ export default function VerifyOtpPage() {
   }
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus()
+    if (e.key === 'Backspace') {
+      if (!otp[index] && index > 0) {
+        // ถ้าช่องปัจจุบันว่างและกด Backspace ให้ย้อนกลับไปช่องก่อนหน้า
+        inputRefs.current[index - 1]?.focus()
+      } else if (otp[index]) {
+        // ถ้าช่องปัจจุบันมีค่า ให้ลบค่าและอยู่ที่ช่องเดิม
+        const newOtp = [...otp]
+        newOtp[index] = ''
+        setOtp(newOtp)
+      }
     }
   }
 
@@ -193,7 +201,7 @@ export default function VerifyOtpPage() {
             <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl p-4 backdrop-blur-sm">
               <div className="flex items-center justify-center gap-2 text-cyan-400">
                 <i className="fas fa-envelope text-lg"></i>
-                <span className="text-sm font-medium">user@example.com</span>
+                <span className="text-sm font-medium">admin@admin.com</span>
                 <Link
                   href="/login"
                   className="text-xs text-cyan-300 hover:text-cyan-200 transition-colors underline"
@@ -225,7 +233,7 @@ export default function VerifyOtpPage() {
                 {otp.map((digit, index) => (
                   <input
                     key={index}
-                    // ref={(el) => inputRefs.current[index] = el}
+                    ref={(el) => { inputRefs.current[index] = el; }}
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"

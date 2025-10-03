@@ -45,7 +45,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         // Login สำเร็จ - redirect ไปหน้า dashboard
-        window.location.href = '/dashboard'
+        window.location.href = '/verify-otp'
       } else {
         // แสดง error message
         setError(data.message || 'เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง')
