@@ -274,7 +274,7 @@ export default function ScanFilesPage() {
               />
 
               <p className="text-blue-200/40 text-xs mt-4">
-                รองรับไฟล์: {acceptedFileTypes.join(', ')} (สูงสุด 100MB ต่อไฟล์)
+                รองรับไฟล์: {acceptedFileTypes.join(', ')} (สูงสุด 1GB ต่อไฟล์)
               </p>
             </div>
           </div>
@@ -400,15 +400,15 @@ export default function ScanFilesPage() {
             <h3 className="text-white font-semibold mb-4">การดำเนินการด่วน</h3>
             
             <div className="space-y-3">
-              <button className="w-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
+              <Link href="/profile?m=report" className="w-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
                 <i className="fas fa-history"></i>
                 <span>ประวัติการวิเคราะห์</span>
-              </button>
+              </Link>
               
-              <button className="w-full bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
+              <Link href="/reports" className="w-full bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
                 <i className="fas fa-chart-bar"></i>
-                <span>ดูรายงาน</span>
-              </button>
+                <span>ดูรายงานทั้งหมด</span>
+              </Link>
               
               <Link 
                 href="/dashboard"
@@ -417,31 +417,6 @@ export default function ScanFilesPage() {
                 <i className="fas fa-tachometer-alt"></i>
                 <span>กลับไปหน้า Dashboard</span>
               </Link>
-            </div>
-          </div>
-
-          {/* Security Tips */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-            <h3 className="text-white font-semibold mb-4 flex items-center space-x-2">
-              <i className="fas fa-shield-alt text-yellow-400"></i>
-              <span>คำแนะนำด้านความปลอดภัย</span>
-            </h3>
-            
-            <div className="space-y-3 text-sm text-blue-200/60">
-              <div className="flex items-start space-x-2">
-                <i className="fas fa-check text-green-400 mt-1"></i>
-                <span>อัพโหลดไฟล์จากแหล่งที่น่าเชื่อถือเท่านั้น</span>
-              </div>
-              
-              <div className="flex items-start space-x-2">
-                <i className="fas fa-check text-green-400 mt-1"></i>
-                <span>ตรวจสอบผลการวิเคราะห์ก่อนดาวน์โหลด</span>
-              </div>
-              
-              <div className="flex items-start space-x-2">
-                <i className="fas fa-check text-green-400 mt-1"></i>
-                <span>ใช้โหมดวิเคราะห์ลึกสำหรับไฟล์สำคัญ</span>
-              </div>
             </div>
           </div>
         </div>

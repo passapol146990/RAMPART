@@ -1,4 +1,4 @@
-// app/files/[id]/page.tsx
+// appreports/[id]/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -271,7 +271,7 @@ export default function ReportDetailPage() {
           <h3 className="text-white text-lg font-semibold mb-2">ไม่พบไฟล์</h3>
           <p className="text-blue-200/60 mb-4">ไม่พบไฟล์ที่คุณต้องการดู</p>
           <Link
-            href="/files"
+            href="reports"
             className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-xl font-semibold transition-all duration-300"
           >
             กลับไปหน้ารายการไฟล์

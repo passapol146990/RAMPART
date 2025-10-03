@@ -1,8 +1,6 @@
-// app/profile/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import NavbarComponent from '@/components/NavbarComponent'
@@ -47,7 +45,7 @@ interface DownloadHistory {
   fileSize: number
 }
 
-export default function ProfilePage() {
+function ProfileContent() {
   const searchParams = useSearchParams()
   const modeParam = searchParams.get('m')
 
@@ -77,7 +75,7 @@ export default function ProfilePage() {
     const mockUser: UserProfile = {
       username: 'security_analyst',
       email: 'analyst@rampart.security',
-      role: 'Security Analyst',
+      role: 'user',
       joinDate: '2024-01-15 09:30:00',
       lastLogin: '2024-01-20 14:25:00'
     }
@@ -264,7 +262,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] p-6">
       {/* Header */}
-      <NavbarComponent/>  
+      <NavbarComponent />
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
         {/* Sidebar - User Info */}
@@ -368,7 +366,7 @@ export default function ProfilePage() {
               </Link>
 
               <Link
-                href="/files"
+                href="reports"
                 className="block w-full bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 <i className="fas fa-folder"></i>
@@ -393,11 +391,10 @@ export default function ProfilePage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-shrink-0 py-3 px-6 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
-                    activeTab === tab.id
+                  className={`flex-shrink-0 py-3 px-6 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${activeTab === tab.id
                       ? 'bg-cyan-500 text-white'
                       : 'text-blue-200/60 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <i className={`fas ${tab.icon}`}></i>
                   <span>{tab.label}</span>
@@ -417,7 +414,7 @@ export default function ProfilePage() {
                       <i className="fas fa-id-card text-cyan-400"></i>
                       <span>ข้อมูลบัญชีผู้ใช้</span>
                     </h4>
-                    
+
                     <div className="space-y-4">
                       <div>
                         <label className="block text-blue-200/60 text-sm mb-2">Username</label>
@@ -466,7 +463,7 @@ export default function ProfilePage() {
                       <i className="fas fa-shield-alt text-green-400"></i>
                       <span>ความปลอดภัย</span>
                     </h4>
-                    
+
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
                         <div className="flex items-center space-x-3">
@@ -479,16 +476,6 @@ export default function ProfilePage() {
                         >
                           เปลี่ยนรหัสผ่าน
                         </button>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                        <div className="flex items-center space-x-3">
-                          <i className="fas fa-mobile-alt text-blue-400"></i>
-                          <span className="text-white">การยืนยันสองขั้นตอน</span>
-                        </div>
-                        <span className="px-3 py-1 bg-red-500/10 text-red-400 rounded-full text-xs font-medium border border-red-500/20">
-                          ปิดใช้งาน
-                        </span>
                       </div>
 
                       <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
@@ -519,14 +506,12 @@ export default function ProfilePage() {
                 {loginHistory.map((log) => (
                   <div key={log.id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
                     <div className="flex items-center space-x-4 flex-1">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                        log.status === 'success' ? 'bg-green-500/10 border border-green-500/20' : 'bg-red-500/10 border border-red-500/20'
-                      }`}>
-                        <i className={`fas ${log.status === 'success' ? 'fa-check' : 'fa-times'} ${
-                          log.status === 'success' ? 'text-green-400' : 'text-red-400'
-                        }`}></i>
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${log.status === 'success' ? 'bg-green-500/10 border border-green-500/20' : 'bg-red-500/10 border border-red-500/20'
+                        }`}>
+                        <i className={`fas ${log.status === 'success' ? 'fa-check' : 'fa-times'} ${log.status === 'success' ? 'text-green-400' : 'text-red-400'
+                          }`}></i>
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-1">
                           <p className="text-white font-medium">{log.device}</p>
@@ -564,7 +549,7 @@ export default function ProfilePage() {
                       <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
                         <i className="fas fa-key text-purple-400"></i>
                       </div>
-                      
+
                       <div className="flex-1">
                         <p className="text-white font-medium mb-1">
                           เปลี่ยนรหัสผ่านแล้ว
@@ -617,10 +602,9 @@ export default function ProfilePage() {
                           {upload.riskScore && (
                             <>
                               <span>•</span>
-                              <span className={`font-medium ${
-                                upload.riskScore >= 8 ? 'text-red-400' :
-                                upload.riskScore >= 6 ? 'text-yellow-400' : 'text-green-400'
-                              }`}>
+                              <span className={`font-medium ${upload.riskScore >= 8 ? 'text-red-400' :
+                                  upload.riskScore >= 6 ? 'text-yellow-400' : 'text-green-400'
+                                }`}>
                                 คะแนนความเสี่ยง: {upload.riskScore}/10
                               </span>
                             </>
@@ -653,7 +637,7 @@ export default function ProfilePage() {
                       <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
                         <i className="fas fa-file-pdf text-green-400"></i>
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-1">
                           <p className="text-white font-medium">{download.fileName}</p>
@@ -685,7 +669,7 @@ export default function ProfilePage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-slate-800 rounded-2xl p-6 w-full max-w-md border border-white/10">
             <h3 className="text-white font-semibold text-lg mb-4">เปลี่ยนรหัสผ่าน</h3>
-            
+
             <form onSubmit={handlePasswordChange} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
@@ -694,7 +678,7 @@ export default function ProfilePage() {
                 <input
                   type="password"
                   value={passwordForm.currentPassword}
-                  onChange={(e) => setPasswordForm(prev => ({...prev, currentPassword: e.target.value}))}
+                  onChange={(e) => setPasswordForm(prev => ({ ...prev, currentPassword: e.target.value }))}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-blue-200/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 transition-all duration-300"
                   placeholder="ป้อนรหัสผ่านปัจจุบัน"
                   required
@@ -708,7 +692,7 @@ export default function ProfilePage() {
                 <input
                   type="password"
                   value={passwordForm.newPassword}
-                  onChange={(e) => setPasswordForm(prev => ({...prev, newPassword: e.target.value}))}
+                  onChange={(e) => setPasswordForm(prev => ({ ...prev, newPassword: e.target.value }))}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-blue-200/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 transition-all duration-300"
                   placeholder="ป้อนรหัสผ่านใหม่"
                   required
@@ -722,7 +706,7 @@ export default function ProfilePage() {
                 <input
                   type="password"
                   value={passwordForm.confirmPassword}
-                  onChange={(e) => setPasswordForm(prev => ({...prev, confirmPassword: e.target.value}))}
+                  onChange={(e) => setPasswordForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-blue-200/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/30 transition-all duration-300"
                   placeholder="ป้อนรหัสผ่านใหม่อีกครั้ง"
                   required
@@ -749,5 +733,20 @@ export default function ProfilePage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e293b] flex items-center justify-center">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-white text-lg">กำลังโหลดข้อมูล...</span>
+        </div>
+      </div>
+    }>
+      <ProfileContent />
+    </Suspense>
   )
 }

@@ -84,7 +84,7 @@ export default function RegisterPage() {
 
       if (response.ok) {
         // Register สำเร็จ - redirect ไปหน้า login
-        window.location.href = '/login'
+        window.location.href = '/auth/login'
       } else {
         // แสดง error message
         setError(data.message || 'การลงทะเบียนไม่สำเร็จ กรุณาลองใหม่อีกครั้ง')
@@ -363,7 +363,7 @@ export default function RegisterPage() {
               <div className="text-center mt-8 pt-6 border-t border-white/10">
                 <p className="text-sm text-blue-200/60">
                   Already have an account?{' '}
-                  <Link href="/login" className="font-bold text-cyan-400 hover:text-cyan-300 transition-colors duration-200">
+                  <Link href="/auth/login" className="font-bold text-cyan-400 hover:text-cyan-300 transition-colors duration-200">
                     Sign In
                   </Link>
                 </p>

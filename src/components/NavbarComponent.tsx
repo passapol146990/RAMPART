@@ -123,13 +123,13 @@ export default function NavbarComponent() {
                                             <span>โปรไฟล์</span>
                                         </Link>
                                         <div className="border-t border-white/10 my-2"></div>
-                                        <button
+                                        <Link href="/logout"
                                             onClick={handleLogout}
                                             className="flex items-center space-x-3 px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors w-full text-left"
                                         >
                                             <span>🚪</span>
                                             <span className="font-medium">ออกจากระบบ</span>
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
                             )}

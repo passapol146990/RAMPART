@@ -271,17 +271,17 @@ export default function DashboardPage() {
             <i className="fas fa-bolt text-green-400 text-xl"></i>
           </div>
           <div className="space-y-3">
-            <Link href={"/upload"} className="w-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
+            <Link href={"/scan"} className="w-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
               <i className="fas fa-upload"></i>
               <span>อัพโหลดไฟล์ใหม่</span>
             </Link>
-            <Link href={"/files"} className="w-full bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
+            <Link href={"/reports"} className="w-full bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
               <i className="fas fa-chart-bar"></i>
-              <span>ดูรายงาน</span>
+              <span>ดูรายงานทั้งหมด</span>
             </Link>
-            <Link href={"/profile"} className="w-full bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
+            <Link href="/profile?m=report" className="w-full bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-xl py-3 px-4 transition-all duration-300 flex items-center justify-center space-x-2">
               <i className="fas fa-cog"></i>
-              <span>การตั้งค่า</span>
+              <span>ผลการวิเคราะห์</span>
             </Link>
           </div>
         </div>
@@ -379,9 +379,9 @@ export default function DashboardPage() {
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-white font-semibold">กิจกรรมล่าสุด</h3>
-          <button className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors duration-200">
+          <Link href="/profile?m=report" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors duration-200">
             ดูทั้งหมด
-          </button>
+          </Link>
         </div>
         
         <div className="space-y-3">
